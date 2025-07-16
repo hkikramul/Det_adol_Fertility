@@ -1,0 +1,105 @@
+---
+title: "Det_adol_fertility"
+author: "Ikramul H Khan"
+date: "2025-07-16"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(haven)
+library(dplyr)
+library(ggplot2)
+library(lme4)
+library(sjPlot)
+library(sjstats)
+library(performance)
+library(broom.mixed)
+
+```
+
+##Loading Data
+
+```{r load-data}
+bdhs <- read_sav("adolescent fertility new.SAV")
+bdhs
+names(bdhs)
+bdhs <- bdhs %>%
+  rename(
+    cluster_id = V001,
+    current_age = V012,
+    sampling_weight = V005,
+    wealth_index= V190,
+    respondent_education = V106,
+    partner_education = V701,
+    division = V024,
+    contraceptive_status= V312New)
+names(bdhs)
+bdhs$CEB
+
+bdhs <- bdhs %>%
+  mutate(
+    weight = sampling_weight / 1000000,
+    cluster_id = as.factor(cluster_id),
+    CEB_binary = ifelse(CEB > 0, 1, 0),  # ✅ use numeric binary
+    education = as_factor(respondent_education),
+    partner_education = as_factor(partner_education),
+    division = as_factor(division),
+    age_gap = as_factor(Age_Gap),
+    wealth = as_factor(wealth_index),
+    age = as.factor(current_age),
+    age_group_5yr = as_factor(V013),
+    WomenEmpowerment = as_factor(WomenEmpowerment),
+    contraceptive_status = as_factor(contraceptive_status)
+  )
+```
+# 2. Descriptive Analysis
+```{r descriptive-stats}
+table(bdhs$education)
+table(bdhs$CEB_binary)
+```
+#Multilevel Logistic regression model
+```{r multilevel-model}
+model <- glmer(CEB_binary ~ education + partner_education + division +
+                 age_gap + wealth + age + WomenEmpowerment + contraceptive_status +
+                 (1 | cluster_id),
+               data = bdhs,
+               family = binomial(link = "logit"),
+               weights = weight,
+               control = glmerControl(optimizer = "bobyqa"))
+
+summary(model)
+```
+# Odds Ratios and Confidence Intervals
+```{r odds-ratios}
+exp(coef(summary(model))[, "Estimate"])
+exp(confint(model, method = "Wald"))
+```
+# Model Diagnostics
+```{r diagnostics}
+check_model(model)
+model_performance(model)
+```
+# Fit standard logistic regression model (no random effects)
+```{r model-comparison}
+model_simple <- glm(CEB_binary ~ education + partner_education + division +
+                   age_gap + wealth + age + WomenEmpowerment + contraceptive_status,
+                 data = bdhs,
+                 family = binomial(link = "logit"),
+                 weights = weight)
+summary(model_simple)
+
+# Likelihood Ratio Test to compare models
+anova(model_simple, model, test = "Chisq")
+
+# Compare model fit using AIC
+AIC(model, model_simple)
+```
+# 10. Publication-Ready Table
+```{r export-table}
+tab_model(model, show.ci = TRUE, show.icc = TRUE, show.re.var = TRUE)
+```
