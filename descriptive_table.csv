@@ -1,0 +1,36 @@
+"variable","category","n","percent"
+"education","No education",40,1.36864356087468
+"education","Primary",339,14.6283463964126
+"education","Secondary",1879,76.895343240406
+"education","Higher",191,7.10766681799364
+"partner_education","No education",117,4.85418494003883
+"partner_education","Primary",429,17.9036144840237
+"partner_education","Secondary",1541,62.9365883159677
+"partner_education","Higher",362,14.3056122733966
+"division","Barishal",271,2.97948270236835
+"division","Chattogram",340,5.36079023665822
+"division","Dhaka",374,10.7732617604939
+"division","Khulna",347,15.9986129503701
+"division","Mymensingh",284,15.161541022374
+"division","Rajshahi",339,19.7993362254085
+"division","Rangpur",339,20.8488924916436
+"division","Sylhet",155,9.07808275779034
+"residence","Urban",717,24.3538898870838
+"residence","Rural",1732,75.6461101129162
+"religion","Muslim",2319,94.77436641465
+"religion","Non-Muslim",130,5.22563358534993
+"wealth","Poor",1039,44.7928935942928
+"wealth","Middle",1060,42.9611666103893
+"wealth","Rich",350,12.2459397953614
+"contraceptive_status","Yes",1686,68.9561501257841
+"contraceptive_status","No",763,31.043849874216
+"age","Age 15",172,7.38914742922424
+"age","Age 16",294,12.9958139656546
+"age","Age 17",399,16.8252763855773
+"age","Age 18",734,29.7017671123708
+"age","Age 19",850,33.0879951073413
+"age_gap",">=11",372,14.2074705318281
+"age_gap","6-10",1548,63.2915329637216
+"age_gap","<=5",529,22.5009965097924
+"WomenEmpowerment","Empowered",142,5.22397081304132
+"WomenEmpowerment","No",2307,94.7760291869586

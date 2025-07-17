@@ -1,0 +1,86 @@
+---
+title: "Model Analysis"
+author: "Ikramul H Khan"
+date: "2025-07-17"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+# Set CRAN mirror and install missing packages
+options(repos = c(CRAN = "https://cran.r-project.org"))
+
+packages <- c("survey", "srvyr", "dplyr", "haven")
+installed <- rownames(installed.packages())
+for (pkg in packages) {
+  if (!(pkg %in% installed)) install.packages(pkg)
+}
+
+# Load libraries
+library(haven)
+library(dplyr)
+library(survey)
+library(srvyr)
+# Open the dataset
+BDHS <- read_sav("adolescent fertility new_1.SAV")
+
+# Prepare variables
+BDHS <- BDHS %>%
+  mutate(
+    education = as_factor(V106),
+    partner_education = as_factor(V701),
+    division = as_factor(V024),
+    residence = as_factor(V025),
+    religion = as_factor(V130),
+    wealth = as_factor(V190),
+    age = as_factor(V012),
+    age_gap = as_factor(Age_Gap),
+    contraceptive_status = as_factor(V312New),
+    WomenEmpowerment = as_factor(WomenEmpowerment),
+    weight = V005 / 1000000
+  )
+# Create survey design object
+bdhs_design <- BDHS %>%
+  as_survey_design(
+    ids = V001,
+    strata = V023,
+    weights = weight,
+    nest = TRUE
+  )
+
+# For strata with single PSU
+options(survey.lonely.psu = "adjust")
+# Variables to summarize
+vars_to_summarize <- c(
+  "education", "partner_education", "division", "residence", "religion",
+  "wealth", "contraceptive_status", "age", "age_gap", "WomenEmpowerment"
+)
+
+# Function to summarize each variable
+get_summary <- function(var) {
+  bdhs_design %>%
+    group_by(value = .data[[var]]) %>%
+    summarise(
+      n = unweighted(n()),
+      percent = survey_mean(proportion = TRUE, na.rm = TRUE) * 100,
+      .groups = "drop"
+    ) %>%
+    mutate(variable = var) %>%
+    select(variable, category = value, n, percent)
+}
+
+# Apply and combine
+descriptive_table <- bind_rows(lapply(vars_to_summarize, get_summary))
+# View table
+print(descriptive_table)
+
+# Export as CSV
+write.csv(descriptive_table, "descriptive_table.csv", row.names = FALSE)
+
+# Optional: Export as Word (requires officer/flextable, let me know if needed)
+```
