@@ -1,0 +1,84 @@
+---
+title: "Model Check"
+author: "Ikramul H Khan"
+date: "2025-07-16"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#loading data set
+```{r}
+library(haven)
+bdhs<- read_sav("adolescent fertility new_1.SAV")
+View(bdhs)
+table(bdhs$V106)
+names(bdhs)
+library(dplyr)
+library(haven)
+bdhs<- bdhs %>%
+  rename ( division = V024,
+           education = V106,
+           husband_education = V701,
+           empowerment = WomenEmpowerment,
+           age = V012,
+           wealth = V190,
+           contraceptive = V312New,
+           age_gap = Age_Gap,
+           sample_weight = V005,
+           cluster_id = V001
+    )
+bdhs <- bdhs %>%
+  mutate(weight = sample_weight / 1000000)
+names(bdhs)
+bdhs <- bdhs %>%
+  mutate(
+    wealth = as_factor(wealth),
+    division = as_factor(division),
+    education            = as_factor(education),
+    husband_education    = as_factor(husband_education),
+    empowerment     = as_factor(empowerment),
+    contraceptive = as_factor(contraceptive),
+    age_gap = as_factor(age_gap),
+    age= as_factor(age)
+  )
+```
+# Fit Multi-level logistic regression
+```{r}
+library(glmmTMB)
+model_gmlr <- glmmTMB(
+  CEB ~ education + husband_education + division +
+               age_gap + wealth + age + empowerment + contraceptive +
+               (1 | cluster_id),
+  data = bdhs,
+  weights = weight,
+  family = binomial(link = "logit")
+)
+
+
+```
+#Fit Logistic regression
+```{r}
+model_glm <- glm(
+  CEB ~ education + husband_education + division +
+               age_gap + wealth + age + empowerment + contraceptive,
+  data = bdhs,
+  family = binomial(link = "logit"),
+  weights = weight
+)
+```
+
+#Compare AIC Value
+```{r}
+AIC(model_glm, model_gmlr) #lower AIC Better model
+
+```
+#Compute ICC (Extract variance of random effect)
+```{r}
+var_cluster <- as.numeric(VarCorr(model_gmlr)$cond$cluster_id[1])
+icc <- var_cluster / (var_cluster + (pi^2 / 3))
+print(paste("ICC =", round(icc, 3)))
+summary(model_gmlr)
+```
+
