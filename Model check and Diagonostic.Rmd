@@ -44,6 +44,7 @@ bdhs <- bdhs %>%
     age= as_factor(age)
   )
 ```
+
 # Fit Multi-level logistic regression
 ```{r}
 library(glmmTMB)
@@ -69,6 +70,7 @@ model_glm <- glm(
 )
 ```
 
+
 #Compare AIC Value
 ```{r}
 AIC(model_glm, model_gmlr) #lower AIC Better model
@@ -92,4 +94,10 @@ vif(model_glm) #<2 is represent no multicollinearity
 install.packages("ResourceSelection")
 library(ResourceSelection)
 hoslem.test(bdhs$CEB, fitted(model_glm)) #if p>.05 model fit well
+```
+# Psedo R square Measure
+```{r}
+install.packages("pROC")
+library(pROC)
+roc(bdhs$CEB, fitted(model_glm))
 ```

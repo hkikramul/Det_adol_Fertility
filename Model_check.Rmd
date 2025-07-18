@@ -82,3 +82,8 @@ print(paste("ICC =", round(icc, 3)))
 summary(model_gmlr)
 ```
 
+#Plot to check cluster effect
+```{r plot}
+library(sjPlot)
+plot_model(model_gmlr, type = "re")
+```
