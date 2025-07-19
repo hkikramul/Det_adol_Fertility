@@ -1,16 +1,3 @@
----
-title: "Model Analysis"
-author: "Ikramul H Khan"
-date: "2025-07-17"
-output:
-  pdf_document:
-    latex_engine: xelatex
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-```{r}
 # Load libraries
 library(haven)
 library(dplyr)
@@ -77,19 +64,13 @@ print(descriptive_table)
 # Export as CSV
 write.csv(descriptive_table, "descriptive_table.csv", row.names = FALSE)
 
-
-# Load libraries
-library(officer)
-library(flextable)
-
 # Create Word document and add formatted table
 doc <- read_docx() %>%
   body_add_par("Descriptive Table: Weighted Percentage and Unweighted Frequency", style = "heading 1") %>%
   body_add_flextable(flextable(descriptive_table))
-```
+print(doc, target = "Descriptive_Table.docx")
 
 
-```{r}
 # Fix lonely PSU issue
 options(survey.lonely.psu = "adjust")
 library(tidyr)
@@ -149,5 +130,3 @@ doc <- read_docx() %>%
 
 print(doc, target = "Fertility_Distribution_by_Covariates_new.docx")
 
-
-```
