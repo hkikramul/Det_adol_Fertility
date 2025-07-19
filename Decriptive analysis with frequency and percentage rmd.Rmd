@@ -1,0 +1,105 @@
+---
+title: "Descriptive analysis (Frequency and %)"
+author: "Ikramul H Khan"
+date: "2025-07-19"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# loading libraries
+```{r}
+library(haven)
+library(dplyr)
+library(survey)
+library(srvyr)
+library(glmmTMB)
+library(lme4)
+library(officer)
+library(flextable)
+library(tidyverse)
+```
+# Preparing Dataset
+
+```{r}
+# Open the dataset
+BDHS <- read_sav("adolescent fertility new_1.SAV")
+
+#Recode the adolescent fertility using new variable V213 as currenly pregnant status
+
+BDHS <- BDHS %>%
+  mutate(adol_fertility = ifelse(V201 >= 1 | V213 == 1, 1, 0))
+
+# Prepare variables
+
+BDHS <- BDHS %>%
+rename(
+    education = V106,
+    partner_education = V701,
+    division = V024,
+    residence = V025,
+    religion = V130,
+    wealth = V190,
+    age = V012,
+    age_gap = Age_Gap,
+    contraceptive_status = V312New,
+    WomenEmpowerment = WomenEmpowerment
+  ) %>%
+  mutate(
+    weight = V005 / 1000000
+  )
+
+```
+
+# Create survey design object 
+```{r}
+bdhs_design <- BDHS %>%
+  as_survey_design(
+    ids = V001,
+    strata = V023,
+    weights = weight,
+    nest = TRUE
+  )
+```
+# Final Descriptive output
+```{r}
+# For strata with single PSU
+options(survey.lonely.psu = "adjust")
+# Variables to summarize
+vars_to_summarize <- c(
+  "education", "partner_education", "division", "residence", "religion",
+  "wealth", "contraceptive_status", "age", "age_gap", "WomenEmpowerment"
+)
+
+# Function to summarize each variable
+get_summary <- function(var) {
+  bdhs_design %>%
+    group_by(value = .data[[var]]) %>%
+    summarise(
+      n = unweighted(n()),
+      percent = survey_mean(proportion = TRUE, na.rm = TRUE) * 100,
+      .groups = "drop"
+    ) %>%
+    mutate(variable = var) %>%
+    select(variable, category = value, n, percent)
+}
+
+# Apply and combine
+Descriptive_Table <- bind_rows(lapply(vars_to_summarize, get_summary))
+# View table
+print(Descriptive_Table)
+
+
+# Create Word document and add formatted table
+doc <- read_docx() %>%
+  body_add_par("Descriptive Table: Weighted Percentage and Unweighted Frequency", style = "heading 1") %>%
+  body_add_flextable(flextable(Descriptive_Table))
+
+
+# Save the document
+print(doc, target = "Descriptive_Table_Output.docx")
+```
+
+
