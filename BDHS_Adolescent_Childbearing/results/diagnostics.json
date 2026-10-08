@@ -1,0 +1,83 @@
+{
+  "historical": {
+    "n": 1601,
+    "parameters": 14,
+    "converged": true,
+    "condition_number": 842.0643115121346,
+    "apparent_weighted_AUC": 0.6940159008938928,
+    "predicted_min": 0.18250944306470154,
+    "predicted_max": 0.9153098320615706
+  },
+  "age_adjusted": {
+    "n": 1601,
+    "parameters": 18,
+    "converged": true,
+    "condition_number": 1038.8776364570144,
+    "apparent_weighted_AUC": 0.8051375098089699,
+    "predicted_min": 0.037071020352050045,
+    "predicted_max": 0.9878699670745402
+  },
+  "candidate_primary": {
+    "n": 1601,
+    "parameters": 28,
+    "converged": true,
+    "condition_number": 1303.8985039155425,
+    "apparent_weighted_AUC": 0.8113425321532005,
+    "predicted_min": 0.02707834738287424,
+    "predicted_max": 0.989594258387058
+  },
+  "main_no_work": {
+    "n": 1601,
+    "parameters": 27,
+    "converged": true,
+    "condition_number": 1300.3194921290294,
+    "apparent_weighted_AUC": 0.8113569130955803,
+    "predicted_min": 0.027077141470935668,
+    "predicted_max": 0.9895933696487791
+  },
+  "age_geo": {
+    "n": 1601,
+    "parameters": 15,
+    "converged": true,
+    "condition_number": 362.2246898846058,
+    "apparent_weighted_AUC": 0.7942964513860522,
+    "predicted_min": 0.049707602443240434,
+    "predicted_max": 0.974729749795826
+  },
+  "prevalence_ratio": {
+    "n": 1601,
+    "parameters": 28,
+    "converged": true,
+    "condition_number": 1053.7968767001591,
+    "apparent_weighted_AUC": 0.8023645754597898,
+    "predicted_min": 0.1394281273937723,
+    "predicted_max": 1.487433162958116
+  },
+  "duration": {
+    "n": 1601,
+    "parameters": 29,
+    "converged": true,
+    "condition_number": 17032.192649765162,
+    "apparent_weighted_AUC": 0.8491074853679641,
+    "predicted_min": 0.014672027475235975,
+    "predicted_max": 0.9999753539473096
+  },
+  "pca_model": {
+    "n": 1299,
+    "parameters": 25,
+    "converged": true,
+    "condition_number": 1427.5716314501553,
+    "apparent_weighted_AUC": 0.8159580682292245,
+    "predicted_min": 0.028091472576165608,
+    "predicted_max": 0.9908613972730158
+  },
+  "pca_same_sample_control": {
+    "n": 1299,
+    "parameters": 28,
+    "converged": true,
+    "condition_number": 1491.1211428341117,
+    "apparent_weighted_AUC": 0.8180100145756535,
+    "predicted_min": 0.019053078078889046,
+    "predicted_max": 0.9929412639483595
+  }
+}

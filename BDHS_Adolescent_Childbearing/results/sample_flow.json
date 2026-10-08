@@ -1,0 +1,15 @@
+{
+  "all_ever_married_adolescents": 2449,
+  "short_questionnaire": 814,
+  "long_questionnaire": 1635,
+  "long_formerly_married": 32,
+  "long_currently_married": 1603,
+  "unknown_partner_education_excluded": 2,
+  "analysis": 1601,
+  "events": 960,
+  "nonevents": 641,
+  "full_PSUs": 674,
+  "strata": 16,
+  "analysis_PSUs": 581,
+  "negative_signed_age_gaps": 4
+}

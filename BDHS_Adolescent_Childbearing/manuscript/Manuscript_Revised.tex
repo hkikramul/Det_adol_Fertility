@@ -1,0 +1,192 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,booktabs,longtable,array,graphicx,amsmath,xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\renewcommand{\arraystretch}{1.12}
+\captionsetup{font=small,labelfont=bf}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small BDHS 2022: adolescent childbearing}\fancyhead[R]{\small Revised research draft}\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\begin{document}
+\begin{center}
+{\Large\bfseries Cohabitation timing and childbearing or current pregnancy among married adolescents in Bangladesh: a complex-survey analysis of the 2022 BDHS}\par
+\vspace{5mm}
+{\small Anonymised manuscript for coauthor review}\par
+{\small Revised 8 October 2026}
+\end{center}
+\textbf{Revision status.} This manuscript incorporates independently executed analyses of the supplied raw data. The partner-characteristics model concerns currently married respondents aged 15--19 who received the long questionnaire. Confirmation of questionnaire-subsample weighting guidance and independent execution of the accompanying R verification script remain necessary before submission. Model specifications were developed during this review, after the original findings were known; they are not prospectively prespecified. The current release contains no multiple imputation.
+
+\section*{Abstract}
+\textbf{Objectives:} To describe the prevalence of having had a live birth or being currently pregnant among ever-married adolescents in Bangladesh and examine its associations with cohabitation timing and partner characteristics among currently married adolescents.
+
+\textbf{Design:} Cross-sectional secondary analysis of the 2022 Bangladesh Demographic and Health Survey (BDHS).
+
+\textbf{Methods:} Descriptive estimates used 2,449 ever-married respondents aged 15--19. The long questionnaire was administered to 1,635; 1,603 were currently married, of whom 1,601 had complete information for the regression. Weighted logistic regression included current age, respondent education, five wealth quintiles, cohabitation age, husband education, signed spousal age gap, residence and division. Sampling weights, strata and primary sampling units were incorporated using a stratified cluster-based Taylor variance estimator. Current working status was evaluated in a sensitivity model. An asset-based principal component was examined separately as an exploratory sensitivity analysis.
+
+\textbf{Results:} Among ever-married adolescents, weighted outcome prevalence was 59.7\% (95\% confidence interval [CI] 57.6--61.7). In the expanded model, cohabitation at ages 15--17 and 18--19, relative to below 15, was associated with lower odds (adjusted odds ratios [AORs] 0.170, 95\% CI 0.113--0.256; and 0.026, 0.015--0.045). A signed spousal age gap of at least 11 years, versus at most five years, was associated with higher odds (AOR 1.752, 1.241--2.474). The higher-husband-education comparison was inconclusive (AOR 0.612, 0.338--1.108). Estimates for cohabitation timing changed substantially after age adjustment.
+
+\textbf{Conclusions:} Cohabitation timing and spousal age gap were associated with childbearing or current pregnancy in the analysed population. Differences in time available for childbearing, selection into marriage, and interview-time measurement of covariates constrain interpretation. These findings do not estimate the effects of delaying marriage or implementing a policy.
+
+\textbf{Keywords:} adolescent childbearing; Bangladesh; cohabitation timing; complex survey; reproductive health; BDHS.
+
+\section{Introduction}
+Adolescent pregnancy has important health and social consequences, and the reproductive needs of married adolescents warrant attention in Bangladesh.\cite{who,bdhs} Evidence useful for policy must distinguish the frequency of births from the proportion of adolescents who have already had a birth or are pregnant. It must also distinguish estimates among married adolescents from estimates among all adolescent girls.
+
+Age at first cohabitation is relevant both to union formation and to the duration during which childbearing can occur. Bongaarts's framework describes how background circumstances relate to fertility through proximate reproductive processes.\cite{bongaarts} This provides a substantive organising framework, but does not establish which interview-time variables are valid confounders of a causal effect. Prior Bangladesh studies have documented socioeconomic and demographic associations with adolescent childbearing.\cite{alam,islam}
+
+The 2022 BDHS provides reproductive histories and measured household and partner characteristics within a complex sampling design. Its short and long questionnaires differ in the information collected.\cite{bdhs} Consequently, exclusions due to questionnaire assignment should not be treated as ordinary item nonresponse. Current age is also important: respondents interviewed at age 15 and at age 19 have experienced different observation windows.
+
+This study therefore has two objectives: to describe childbearing or current pregnancy among ever-married adolescents aged 15--19, and to examine conditional associations with cohabitation timing and partner characteristics among currently married long-questionnaire respondents. It is an association study, not an evaluation of a marriage law, reproductive intervention, or causal pathway.
+
+\section{Methods}
+\subsection{Data source and design}
+The 2022 BDHS is a nationally representative household survey with a two-stage stratified cluster design. Selected households were interviewed and eligible ever-married women aged 15--49 were invited to individual interviews. A long questionnaire was administered in two-thirds of selected households; the remaining households received a short questionnaire covering background characteristics and reproductive history.\cite{bdhs} The supplied individual recode contains 30,078 women, 674 observed primary sampling units (PSUs), and 16 strata. The report's planned PSU count and the observed recode count should not be conflated.
+
+\subsection{Populations and sample selection}
+The descriptive population comprised 2,449 ever-married respondents aged 15--19. Questionnaire assignment was identified directly using \texttt{SQTYPE}: 814 received the short questionnaire and 1,635 the long questionnaire. Among long-questionnaire respondents, 32 were formerly married and 1,603 were currently married. The partner-characteristics analysis was defined for currently married respondents because husband education and age were unavailable for the formerly married group. Two currently married respondents reported unknown husband education; the final regression sample was 1,601 (Figure~\ref{fig:flow}).
+
+This selection is distinct from excluding 848 respondents for ordinary missing responses. No missing values were imputed. Short-questionnaire respondents remain in descriptive estimates for variables measured in both questionnaire forms. No a priori sample-size calculation was conducted; available survey records were used, and category counts and precision were examined rather than assuming adequacy from total sample size alone.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=.92\linewidth]{figures/flow.pdf}
+\caption{Verified sample selection. The regression concerns currently married long-questionnaire respondents; the descriptive population includes all 2,449 ever-married adolescents.}\label{fig:flow}
+\end{figure}
+
+\subsection{Outcome}
+The binary outcome equalled one if total children ever born (\texttt{V201}) exceeded zero or current pregnancy (\texttt{V213}) equalled one; otherwise it equalled zero. Both source variables were observed for the descriptive population. The pregnancy variable's zero category denotes ``no or unsure''; uncertainty is not distinguishable within that code. The recoded outcome exactly matched the original derived dataset among eligible adolescents.
+
+The measure captures lifetime live-birth experience or current pregnancy at interview among respondents currently aged 15--19. It includes any live births before age 15. It is neither a birth rate nor a complete measure of all pregnancies, because previous pregnancies without a live birth are not included unless the respondent is currently pregnant.
+
+\subsection{Exposure and covariates}
+The main exposure was first-cohabitation age (\texttt{V511}), grouped as below 15, 15--17, and 18--19 years. The expanded model also included current age (five separate categories), respondent education (none, primary, secondary, higher), original household wealth quintiles (poorest to richest), husband education (none, primary, secondary, higher), signed spousal age gap (at most five, 6--10, at least 11 years), urban/rural residence and eight administrative divisions. The gap was calculated as husband age minus respondent age; four negative differences are included in the at-most-five category.
+
+Variables were selected using the study question and plausible demographic and geographic relationships, rather than bivariate significance or stepwise selection. Current age addresses the observation window; residence and division describe geographic context. Socioeconomic and partner characteristics allow conditional descriptions but are not asserted to form a sufficient causal adjustment set. Education, marital-household wealth and location were measured at interview and may not represent premarital circumstances. Current working status was excluded from the expanded model and included in a sensitivity model because employment may follow childbearing. Confounder selection for a causal question would require additional temporal and substantive justification.\cite{vanderweele,schisterman}
+
+\subsection{Statistical analysis}
+Weights were \texttt{V005}/1,000,000, with \texttt{V021} for PSUs and \texttt{V023} for strata. Analytic-domain estimates retained the full recode's PSU/stratum structure. Descriptive outcome confidence intervals used Taylor linearisation and a logit transformation. Regression used inverse-probability-weighted logistic estimation and a stratified ultimate-cluster Taylor sandwich: PSU score totals were centred within strata, with zero contributions for PSUs outside the analytic domain. No finite population correction was applied. Regression intervals used a $t$ reference distribution with degrees of freedom equal to 674 minus 16 minus the number of non-intercept parameters.\cite{lumley}
+
+All covariates in each specification were entered simultaneously. Odds ratios describe odds, not prevalence ratios or percentage-point changes. Reported coefficient-level $p$-values are exploratory; no omnibus bivariate test or multiplicity-adjusted confirmatory claim is made. This avoids reproducing the original script's minimum-category-$p$ screening as a factor-level test.
+
+The analysis was executed in Python using \texttt{pyreadstat}, \texttt{pandas}, \texttt{numpy}, \texttt{scipy}, \texttt{statsmodels} and \texttt{patsy}, with explicit survey covariance calculations. An independent R \texttt{survey} verification script is supplied but has not been executed in this environment. Applicability of the individual weight and variance approach to long-questionnaire subsampling remains a pre-submission verification item; the estimates should be treated as provisional until that guidance is reconciled.
+
+\subsection{Sensitivity analyses and diagnostics}
+We compared the historical six-predictor specification, an age-adjusted version, an age-and-geography cohabitation model, the expanded model, and an expanded model additionally including work. A duration-based timing specification replaced cohabitation groups with a cubic spline in years since first cohabitation; it addresses a different timing parameterisation, not an independently identified cohabitation effect. A robust Poisson specification was assessed but not adopted as the principal probability model.
+
+An exploratory weighted PCA used eight binary asset items: electricity, radio, television, refrigerator, bicycle, motorcycle/scooter, car/truck and landline telephone. Codes other than zero/one were treated as ineligible for that asset construct. PCA was based on the weighted correlation matrix in the asset-complete analytical subset. PC1 was scaled to unit weighted variance and oriented towards positive refrigerator ownership. It replaced official wealth only in a sensitivity model; an official-wealth model on the same respondents was fitted for comparison. PCA did not select confounders. The official DHS wealth index is already derived from asset PCA.\cite{wealth}
+
+Completed diagnostics included model convergence, observed outcome counts by category, age/cohabitation overlap, information-matrix condition numbers, fitted ranges and apparent weighted discrimination. We did not complete independent R verification, PSU influence diagnostics, external validation or causal-identification checks, and make no claims that these were passed.
+
+\section{Results}
+\subsection{Outcome prevalence and sample characteristics}
+Among the 2,449 ever-married adolescents, weighted prevalence of the outcome was 59.7\% (95\% CI 57.6--61.7). Figure~\ref{fig:age} shows age-specific descriptive estimates, reflecting different ages and observation windows. These estimates should not be generalised to never-married adolescents.
+
+The regression sample contained 960 respondents with the outcome and 641 without it. Table~\ref{tab:characteristics} describes its characteristics. The no-education reference category contained only 25 respondents, including six without the outcome, which contributes to imprecision in education comparisons. Cohabitation at 18--19 was observed only among respondents currently aged 18--19; comparisons with younger current ages lack support.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=.82\linewidth]{figures/age_prevalence.pdf}
+\caption{Survey-weighted prevalence of a live birth or current pregnancy by current age among ever-married adolescents ($n=2,449$). Bars denote 95\% confidence intervals. These are cross-sectional age comparisons, not a longitudinal trajectory.}\label{fig:age}
+\end{figure}
+
+\begin{longtable}{p{.30\linewidth}p{.30\linewidth}rr}
+\caption{Characteristics of the regression sample ($n=1,601$).}\label{tab:characteristics}\\
+\toprule Characteristic & Category & Unweighted $n$ & Weighted \%\\\midrule\endfirsthead
+\toprule Characteristic & Category & Unweighted $n$ & Weighted \%\\\midrule\endhead
+\bottomrule\endfoot
+\input{table1.tex}
+\end{longtable}
+
+\subsection{Conditional associations}
+In the expanded model excluding work, cohabitation at 15--17 versus below 15 was associated with lower odds (AOR 0.170, 95\% CI 0.113--0.256), as was cohabitation at 18--19 (AOR 0.026, 0.015--0.045). A gap of at least 11 versus at most five years was associated with higher odds (AOR 1.752, 1.241--2.474). Husband higher education versus none was inconclusive (AOR 0.612, 0.338--1.108); the interval is compatible with a substantial inverse association as well as little association. Figure~\ref{fig:forest} displays these selected contrasts; Table~\ref{tab:regression} provides every non-intercept coefficient, avoiding selective presentation.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{figures/forest.pdf}
+\caption{Selected expanded-model odds ratios and 95\% confidence intervals ($n=1,601$). The dotted line denotes an odds ratio of one. All comparisons are conditional associations; the cohabitation contrasts also reflect differing time available for childbearing.}\label{fig:forest}
+\end{figure}
+
+\begin{longtable}{p{.49\linewidth}rrr}
+\caption{Expanded-model conditional associations, excluding work ($n=1,601$).}\label{tab:regression}\\
+\toprule Contrast & AOR & 95\% CI & $p$\\\midrule\endfirsthead
+\toprule Contrast & AOR & 95\% CI & $p$\\\midrule\endhead
+\bottomrule\endfoot
+\input{table3.tex}
+\end{longtable}
+{\small Reference categories: age 15; no respondent education; poorest wealth; cohabitation below 15; no husband education; gap at most five; urban residence; Barishal. All listed variables are included together. $p$-values are coefficient-level exploratory comparisons, not omnibus factor tests.}
+
+\subsection{Sensitivity and model behaviour}
+The historical six-predictor model reproduced the original cohabitation AORs of approximately 0.409 and 0.150. Adding current age changed these to 0.168 and 0.027. Therefore, the inverse association persists but its magnitude is specification-dependent. Adjustment should not be chosen according to whether an association becomes stronger or weaker. Adding geography and retaining five wealth quintiles yielded the expanded-model estimates above. Additional work adjustment changed the selected estimates negligibly (Supplementary Table~\ref{tab:sensitivity}).
+
+All fitted specifications converged. Apparent weighted AUC increased from approximately 0.694 in the historical model to approximately 0.811 in the expanded model including work; these are descriptive training-sample values, not evidence of external performance or absence of bias. The Poisson specification generated fitted means as high as 1.487 and was not adopted as the main probability model. The duration-spline specification had a high information-matrix condition number and near-one fitted probabilities, motivating further stability assessment rather than a claim of superiority.
+
+The asset PCA used 1,299 of the 1,601 respondents: 302 had not-de-jure asset codes. PC1 explained 19.3\% of standardized asset variation. This modest fraction, rare asset ownership and selected subset do not justify replacing the official wealth index in the main analysis. Full model estimates, asset loadings and component variance fractions are included in the reproducibility package.
+
+\section{Discussion}
+This revised analysis distinguishes the descriptive ever-married population from the currently married population with partner information. The main reproducible pattern is lower odds of a live birth or current pregnancy among those beginning cohabitation later. A larger signed spousal age gap was also associated with higher odds. In contrast, the original statistically conclusive higher-husband-education result was not retained under the expanded adjustment specification.
+
+\subsection{Timing and interpretation}
+Cohabitation age and current age jointly determine the time available for childbearing after union formation. Comparing an adolescent who began cohabitation years earlier with one who began recently is consequently not equivalent to estimating an intervention effect. Age adjustment addresses an important observation-window difference but does not eliminate duration-related interpretation, residual confounding or selection into marriage. Earlier Bangladesh findings provide context for the direction of the observed pattern, not validation of a causal mechanism.\cite{alam,islam}
+
+The partner age-gap finding may motivate research on reproductive expectations, relationship circumstances and access to services. Those pathways were not directly tested. Likewise, husband education should not be interpreted as proven irrelevant because its confidence interval crosses one. Wider intervals and changes across specifications indicate uncertainty.
+
+\subsection{Implications for Bangladesh}
+The descriptive findings indicate substantial reproductive-health needs among ever-married adolescents. Service planning can consider age, marital circumstances and access to appropriate antenatal and reproductive-health care. Existing external evidence and policy commitments may support preventing child marriage and supporting adolescent autonomy,\cite{who} but this survey model does not quantify the benefits of a specific programme, legislative change, or partner-focused intervention.
+
+Geographic estimates can identify questions for local assessment, but cross-sectional differences should not be used alone to rank programme effectiveness. Evaluating a policy requires a defined intervention, an appropriate comparison, pre-intervention information and an identification strategy. The present model also does not estimate socioeconomic total effects: some adjusted characteristics may be consequences or intermediates.
+
+\subsection{Strengths and limitations}
+Strengths include verification against the raw recode, explicit distinction between questionnaire exclusions and unknown responses, current-age adjustment, retention of the full PSU/stratum structure, complete coefficient reporting and transparent sensitivity specifications. No unsupported imputation reassurance is retained.
+
+Important limitations remain. First, this is cross-sectional and the outcome is cumulative through different interview ages. Second, covariates measured at interview cannot be assumed to precede cohabitation or childbearing; this permits reverse causation and inappropriate causal adjustment. Third, restricting partner analyses to currently married adolescents can select a population different from all ever-married or all adolescent women. Fourth, questionnaire-specific weighting and independent R verification remain unresolved, so final population inference requires checking. Fifth, self-reported ages and dates may be affected by recall and age heaping. Sixth, sparse education categories and age/cohabitation structural zeros limit some comparisons. Finally, model revisions were developed after reviewing results; confirmatory language and selective significance claims are inappropriate.
+
+The pregnancy coding combines ``no'' with ``unsure'', and the composite does not include previous non-live-birth pregnancies. A future timing analysis should separate pregnancy from completed live-birth events and validate dates, censoring and births before union. More advanced estimators cannot compensate for unavailable premarital confounders or lack of a suitable target population.
+
+\section{Conclusion}
+Among currently married adolescents aged 15--19 with long-questionnaire information, later first cohabitation was associated with lower odds of having had a live birth or being currently pregnant, while a larger spousal age gap was associated with higher odds. Current-age adjustment substantially affected the cohabitation estimates. Findings describe conditional patterns and reproductive-health needs; they do not establish causal effects or predict the impact of a marriage policy.
+
+\section*{Declarations}
+\textbf{Ethics.} This is a secondary analysis without new recruitment. The original BDHS obtained ethical review and participant consent as documented in its report.\cite{bdhs} The authors must confirm any institution-specific secondary-analysis requirements before submission.
+
+\textbf{Funding and competing interests.} The supplied manuscript states no specific funding and no competing interests; these statements require confirmation from all authors.
+
+\textbf{Data availability.} The original BDHS data are available through the DHS Program subject to registration and access conditions. Raw respondent data are not redistributed with the analysis package. Analysis scripts, derived aggregate tables and figure-generation files accompany this draft.
+
+\textbf{AI assistance.} ChatGPT/Codex assisted with statistical review, code generation, figure preparation and manuscript revision. Authors must independently verify the analyses and text, approve the final disclosure and take responsibility for the submitted work. AI is not an author.
+
+\textbf{Acknowledgements and authorship.} Identifying author information is omitted in this anonymised draft. Authorship order, contributions and acknowledgements should be confirmed on a separate title page.
+
+\begin{thebibliography}{10}
+\bibitem{who} World Health Organization. Adolescent pregnancy. Fact sheet. \url{https://www.who.int/news-room/fact-sheets/detail/adolescent-pregnancy}. Accessed 8 October 2026.
+\bibitem{bdhs} National Institute of Population Research and Training; ICF. Bangladesh Demographic and Health Survey 2022: Final Report. Dhaka and Rockville: NIPORT and ICF; 2024. \url{https://dhsprogram.com/pubs/pdf/FR386/FR386.pdf}.
+\bibitem{bongaarts} Bongaarts J. The proximate determinants of fertility. Technol Soc. 1987;9(3--4):243--260. doi:10.1016/0160-791X(87)90003-0.
+\bibitem{alam} Alam N, Mollah MMH, Naomi SS. Prevalence and determinants of adolescent childbearing: comparative analysis of 2017--18 and 2014 Bangladesh Demographic Health Survey. Front Public Health. 2023;11:1088465. doi:10.3389/fpubh.2023.1088465.
+\bibitem{islam} Islam MM, Islam MdK, Hasan MS, Hossain MB. Adolescent motherhood in Bangladesh: trends and determinants. PLoS One. 2017;12(11):e0188294. doi:10.1371/journal.pone.0188294.
+\bibitem{vanderweele} VanderWeele TJ. Principles of confounder selection. Eur J Epidemiol. 2019;34:211--219. doi:10.1007/s10654-019-00494-6.
+\bibitem{schisterman} Schisterman EF, Cole SR, Platt RW. Overadjustment bias and unnecessary adjustment in epidemiologic studies. Epidemiology. 2009;20(4):488--495. doi:10.1097/EDE.0b013e3181a819a1.
+\bibitem{lumley} Lumley T, Scott A. Fitting regression models to survey data. Stat Sci. 2017;32(2):265--278. doi:10.1214/16-STS605.
+\bibitem{wealth} DHS Program. Wealth quintiles. Guide to DHS Statistics. \url{https://dhsprogram.com/Data/Guide-to-DHS-Statistics/Wealth_Quintiles.htm}. Accessed 8 October 2026.
+\end{thebibliography}
+
+\clearpage\appendix
+\section{Supplementary model comparisons}
+\begin{table}[htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{Selected AORs (95\% CIs) across specifications.}\label{tab:sensitivity}
+\begin{tabular}{p{.27\linewidth}p{.16\linewidth}p{.16\linewidth}p{.16\linewidth}p{.16\linewidth}}
+\toprule Contrast & Historical & Age/geography & Expanded & Expanded + work\\\midrule
+Cohabitation 15--17 vs $<$15 & 0.409 (0.306--0.548) & 0.156 (0.105--0.234) & 0.170 (0.113--0.256) & 0.170 (0.113--0.256) \\
+Cohabitation 18--19 vs $<$15 & 0.150 (0.101--0.225) & 0.024 (0.014--0.040) & 0.026 (0.015--0.045) & 0.026 (0.015--0.045) \\
+Higher husband education vs none & 0.457 (0.270--0.774) & -- & 0.612 (0.338--1.108) & 0.612 (0.338--1.108) \\
+Spousal age gap $\geq$11 vs $\leq$5 & 1.626 (1.198--2.206) & -- & 1.752 (1.241--2.474) & 1.752 (1.242--2.473) \\
+
+\bottomrule\end{tabular}
+\end{table}
+Historical: six original predictors including work, without age or geography. Age/geography: cohabitation groups, current age, residence and division. Expanded: age, education, five wealth quintiles, cohabitation groups, husband education, gap, residence and division. Expanded + work adds working status. Dashes denote variables not entered, not missing estimates. All models use the same 1,601 respondents. Differences cannot be interpreted solely as removal of confounding; logistic odds ratios are conditional and specification-dependent.
+
+\section{Reproducibility and outstanding checks}
+The package includes the executed Python analysis, full aggregate coefficient tables, category counts, overlap tables, PCA loadings and component variances. The R verification and ggplot2 figure scripts are supplied as editable source and have not been executed here. The PDF figures were generated with Matplotlib as vector graphics.
+
+Before submission: verify long-questionnaire weight guidance; independently reproduce final estimates in R; complete PSU influence and specification checks; verify retained literature references; obtain coauthor approval of the final question, model set, declarations and conclusions. No claim of Lancet readiness or guaranteed acceptance is made.
+\end{document}

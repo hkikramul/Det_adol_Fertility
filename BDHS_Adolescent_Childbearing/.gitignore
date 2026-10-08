@@ -1,0 +1,17 @@
+data/*
+!data/README.md
+*.sav
+*.SAV
+*.dta
+*.DTA
+*.por
+*.csv.gz
+.venv/
+__pycache__/
+*.pyc
+*.aux
+*.log
+*.out
+.Rhistory
+.RData
+.DS_Store
